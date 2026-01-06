@@ -1,1 +1,206 @@
-# Mini-Calculator
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Useful Mini Calculators</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(to right, #ffecd2, #fcb69f);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    header {
+        text-align: center;
+        padding: 20px;
+        background-color: rgba(255,255,255,0.3);
+        backdrop-filter: blur(10px);
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333;
+    }
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 20px;
+        gap: 20px;
+        flex: 1;
+    }
+    .card {
+        background: rgba(255,255,255,0.8);
+        padding: 20px;
+        border-radius: 15px;
+        width: 300px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        transition: transform 0.3s;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    .card h2 {
+        text-align: center;
+        color: #f76c6c;
+    }
+    input, select, button {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+    }
+    button {
+        background-color: #f76c6c;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    button:hover {
+        background-color: #ff3b3b;
+    }
+    .result {
+        margin-top: 10px;
+        font-weight: bold;
+        text-align: center;
+        color: #333;
+    }
+    footer {
+        text-align: center;
+        padding: 15px;
+        background-color: rgba(255,255,255,0.3);
+        backdrop-filter: blur(10px);
+        font-weight: bold;
+        color: #333;
+    }
+    @media (max-width: 1000px){
+        .container {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+</style>
+</head>
+<body>
+
+<header>Useful Mini Calculators</header>
+
+<div class="container">
+
+    <!-- Age Calculator -->
+    <div class="card">
+        <h2>Age Calculator</h2>
+        <label for="birthYear">Enter Birth Year:</label>
+        <input type="number" id="birthYear" placeholder="e.g. 1990">
+        <button onclick="calculateAge()">Calculate Age</button>
+        <div class="result" id="ageResult"></div>
+    </div>
+
+    <!-- Leap Year Checker -->
+    <div class="card">
+        <h2>Leap Year Checker</h2>
+        <label for="leapYear">Enter Year:</label>
+        <input type="number" id="leapYear" placeholder="e.g. 2024">
+        <button onclick="checkLeapYear()">Check</button>
+        <div class="result" id="leapResult"></div>
+    </div>
+
+    <!-- BMI Calculator -->
+    <div class="card">
+        <h2>BMI Calculator</h2>
+        <label for="bmiWeight">Weight (kg):</label>
+        <input type="number" id="bmiWeight" placeholder="e.g. 70">
+        <label for="bmiHeight">Height (cm):</label>
+        <input type="number" id="bmiHeight" placeholder="e.g. 170">
+        <button onclick="calculateBMI()">Calculate BMI</button>
+        <div class="result" id="bmiResult"></div>
+    </div>
+
+    <!-- BMR Calculator -->
+    <div class="card">
+        <h2>BMR Calculator</h2>
+        <label for="bmrWeight">Weight (kg):</label>
+        <input type="number" id="bmrWeight" placeholder="e.g. 70">
+        <label for="bmrHeight">Height (cm):</label>
+        <input type="number" id="bmrHeight" placeholder="e.g. 170">
+        <label for="bmrAge">Age:</label>
+        <input type="number" id="bmrAge" placeholder="e.g. 25">
+        <label for="bmrGender">Gender:</label>
+        <select id="bmrGender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+        <button onclick="calculateBMR()">Calculate BMR</button>
+        <div class="result" id="bmrResult"></div>
+    </div>
+
+</div>
+
+<footer>Made by JINAN JUBERY</footer>
+
+<script>
+    function calculateAge(){
+        let birthYear = document.getElementById('birthYear').value;
+        let currentYear = new Date().getFullYear();
+        if(birthYear && birthYear <= currentYear){
+            let age = currentYear - birthYear;
+            document.getElementById('ageResult').innerText = `Your Age is ${age} years`;
+        } else {
+            document.getElementById('ageResult').innerText = 'Please enter a valid year';
+        }
+    }
+
+    function checkLeapYear(){
+        let year = document.getElementById('leapYear').value;
+        if(year){
+            let isLeap = (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+            document.getElementById('leapResult').innerText = isLeap ? `${year} is a Leap Year` : `${year} is NOT a Leap Year`;
+        } else {
+            document.getElementById('leapResult').innerText = 'Enter a valid year';
+        }
+    }
+
+    function calculateBMI(){
+        let weight = document.getElementById('bmiWeight').value;
+        let height = document.getElementById('bmiHeight').value;
+        if(weight && height){
+            let heightM = height / 100;
+            let bmi = weight / (heightM * heightM);
+            let category = '';
+            if(bmi < 18.5) category = 'Underweight';
+            else if(bmi < 24.9) category = 'Normal weight';
+            else if(bmi < 29.9) category = 'Overweight';
+            else category = 'Obese';
+            document.getElementById('bmiResult').innerText = `BMI: ${bmi.toFixed(2)} (${category})`;
+        } else {
+            document.getElementById('bmiResult').innerText = 'Enter valid weight and height';
+        }
+    }
+
+    function calculateBMR(){
+        let weight = document.getElementById('bmrWeight').value;
+        let height = document.getElementById('bmrHeight').value;
+        let age = document.getElementById('bmrAge').value;
+        let gender = document.getElementById('bmrGender').value;
+
+        if(weight && height && age){
+            let bmr;
+            if(gender === 'male'){
+                bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+            } else {
+                bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+            }
+            document.getElementById('bmrResult').innerText = `Your BMR is ${bmr.toFixed(2)} kcal/day`;
+        } else {
+            document.getElementById('bmrResult').innerText = 'Please fill all fields';
+        }
+    }
+</script>
+
+</body>
+</html>
